@@ -372,4 +372,4 @@ Variances are always positive
 
 Always right-tailed
 
- Range: 0 to +∞
+ Range: 0 to +infinity
