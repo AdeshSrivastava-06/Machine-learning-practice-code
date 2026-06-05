@@ -1,0 +1,375 @@
+DATA - VISUALIZATION 1st PART
+
+There are 2 types of tables 1-way table and 2-way table i.e there are more than 2 dependencies i.e revenue depends on month and the year
+
+
+1..bar graph uses frquency count and it is used when the the data is not more
+
+2..line plot isnthe most used when we wnat ot see the trends and the data is big
+
+3..O-GIVES to make it we have to take the cumulative frequencies:- like if the expense of the 1st month is 10K and 2nd month is 12K then in the cumulative frequencies it will be 22K for the second month that means it keeps adding the previous values
+This is useful for:
+finding median of grouped data
+Finding quartiles
+Comparing cumulative distributions
+
+4..dot plot is also used just like bar graph it is stacked dot on top of it used for samll data sets
+
+5..relative frequency table it is like calculating the frequencies by rows or by cols it cannot be done by both
+
+6..joint distributions similar to relative frequency table but it only compare 2 different distributions
+
+7..Histograms looks exactly like bar  except in histofram we group the data into bucktes or bins:- range like 4 bins 1-5,5-9,9-13,14-17 like that
+
+
+
+
+
+DATA - ANALYSIS
+
+1..Measure of central tendancy i.e the diifenent ways to describe the middle part of the data there r several methods
+
+(a)mean->average i.e middle part like a sew saw
+(b)median->here only middle number matters no mathematical calulations like 4,7,9,10 the median is 8 and mean is 7.5
+
+(c)mode->the most occured number in our data is the mode if all the values are disticnt then there is no mode if there is more than 1 mode then its bimodal
+
+
+2..Measure of spread i.e how are the data is spread out around its center 2 most common logics used 
+
+(a)Range->to find the range we have to subtract the highest data point with the lowest data point
+if the range is less then the data is clustered 
+
+(b)Interquartile-Range(IQR)->
+quartile:Q1- 25 percentile
+         Q2- 50 percentile
+         Q3- 75 percentile
+         Q4- 100 percentile
+IQR = Q3 - Q1         
+percentile means how may percent pf people are below u  IQR tells the difference between the quartiles if its low then the data is close to the median and vice versa      
+
+
+
+
+OUTLIERS
+
+Effects->
+~mean is very high(median will not be affected)
+~can distort measures like mean and std making them less represantative 
+~in ML and NLP especially regression models ouliers influence the model leading to poor generalization
+
+
+1..To get rid of outliers we can use the upper fence(bound) and lower in our data
+to get that we use the IQR 
+
+upper fence = Q3 + 1.5(IQR)
+lower fence = Q1 - 1.5(IQR)
+also known by turkey fence 
+and the other not used method is Z-Score(# sigma Rule) in this sigma rule the empirical rule is used
+~Upper bound = mean + 3 × std
+~Lower bound = mean – 3 × std
+
+
+
+
+5 NUMBER SUMMARY
+
+1..The 5NS is a statistical measure used to descibe the distributions of the datset i.e about spread and center and include
+Min,Q1,Q2,Q3,max
+it is used after removing the outliers and can be use to make the box plot
+
+
+
+DATA DISTRIBUTIONS
+
+In histogram the curve i.e the kernel density estimation curve so that curve is the data distributions
+
+2 imp terms Population->like a full circle
+            Sample->one third part of that circle
+now this sample is some what representing a population this is nothing but inferential statistics         
+
+~Varience->is a statistical measure that quantifies the spread or dispersion of a set of data points around their mean(avg)
+
+formula-> sample var= summation(Xi - Xmean)^2/n-1
+          population var= summation(Xi - Xmean)^2/n
+
+~STD = underroot(Varience)       
+
+
+
+
+DENSITY CURVE
+
+The line or the curve we get after joining the top of all the histogram bins then it is a frequency polygon the fewer the bins the more inaccurate the polygon that is the KDE
+
+KDE ≠ frequency polygon.
+KDE = smooth density curve using Gaussian smoothing.
+Frequency polygon = join midpoints of histogram bins.
+
+The types of distributions:-
+(a)Symmetrical distributions(guassian) mean=meadian=mode (find STD)
+(b)Skewed distributions->
+   2 types left(mean < median) and right(mean>median) Skewed distributions
+   in this the mean median(most useful) ad mode are highly distributed mean will be towards the and IQR hepls a lot
+
+
+
+Z-SCORE TESTING
+
+~Normal distributions follows the empirical formula the rule is simple 68-95-99.7 rule 
+
+lets understand with example 1,2,3,4,5,6,7,8,9
+here mean = 5
+std = 2.73
+mode = 5
+so the equation is that between data 5-2.73=2.27(minus) and 5+2.73=7.23(add) lies the 68% data this the proprability
+now from 2.27-2.73=-.49 to 7.23+2.73=10.46 lies the 95% data and same way for 99.7
+
+it means that there is 0.3 proprability that data lies beyond the 3std
+
+:-> The z-score is a powerful statistical tool used to understand how far a data point is from the mean of a dataset, measured in terms of std
+
+z-score = (data point - mean)/std
+to calulate it we use the z-table from www.ztable.common if the z-score is 1.5 the 93.32% lies below it
+
+
+
+PROBABILITY
+
+means the likelihood or the chances of a ocuurenig a event probabilty is goind to allow us to determine how reliable our statistical result actually are 
+
+probabilty=True outcome/Total outcome
+
+Types of EVENTS:- 
+(a)Independent events- Occurrence of one event does not effect the Occurrence of the other this means the probability of both events happening tigether us simply the product of theor individual probailities
+P(A and B) = P(A).P(B)
+
+(b)Dependent events- the Occurrence of one event affects the Occurrence of the other eg-cards we write it is as p(B|A) i.e some events A has occured and what will be the probability of B Occurrence
+P(A and B) = P(A).P(B|A)  
+
+(c)Mutually exclusive events- these are the events that cannot happen at the same time i.e P(A abd B) = 0
+i.e the probability of getting both heads and tails is 0
+(here *and = intersection)
+
+
+
+PROBABILITY RULES 
+
+(a)Addition Rule helps us to find the probability that at least one of 2 events occurs i.e A union B 
+
+P(A U B) = P(A) + P(B)( mutually excluded cannot happen togehter)
+P(A U B) = P(A) + P(B) - P(A intersection B)  [can happen togehter]
+
+we subtract to avoid double-counting the overlap
+Example-> the probability of drawing a red card or a king (here we have to union)
+there are 26 red card and 4 king(2 red and 2 black)
+P(A U B) = 26/52 + 4/52 - 2/52
+
+(b)Multiplication is used to find the probability of 2 events happening togehter P(A intersection B)
+
+(c)   Complement Rule
+Probability of an event NOT happening:
+P(Aᶜ) = 1 – P(A)
+Example:
+If P(rain) = 0.3 → P(no rain) = 1 – 0.3 = 0.7
+
+
+
+
+
+CONDITIONAL PROBABILITY
+P(A | B) = P(A intersection B) / P(B)
+Example:
+40% people like tea.
+25% like both tea and coffee.
+
+P(Coffee | Tea) = P(Tea ∩ Coffee) / P(Tea)
+= 0.25 / 0.40
+= 0.625
+
+So, 62.5% of tea lovers also like coffee.
+
+example with dependent event-> there r 3 white balls and 2 red balls what is the probability of getting 2 white balls
+P(A intersection B) = P(A) * P(B|A) = 3/5 * 2/4
+
+
+
+
+
+BAYES THEOREM
+
+its just like you know a person is in contact with a covid and will calulate the probability of getting covid to that person is bayes theorem i.e
+
+P(A|B) = [P(B|A)*P(A)] / P(B)
+
+QUESTION
+eg-> lets say we have 2 dice one dice is fair and other dice is unfair it is weighted as it is getting 6 50% of the time
+ 1.fair dice
+ 2.unfair dice- 50% time 6
+
+scenario- we choose one of the die without knowing which die i picked we roll that dice and got a 6
+
+question-what is the probability that we picked the biased die given that we rolled a 6
+so here A-choosing the biased die
+        B-Rolling a 6
+
+therefore P(B|A) = P(6|Biased) = 1/2
+          P(A) = P(Biased) = 1/2
+          P(B) = 1/6*1/2 + 1/2*1/2 = 1/3(here we have applied the or condition of picking a fair die and then rolling a 6 and the for the unfair die)
+
+therefore P(A|B) = (1/2*1/2) / (1/3) = 3/4
+"Bayes theorem batata hai ki mere intution ko naya evidence milne ke baad kitna suppourt milta hai"            
+
+
+
+
+Statistics is the branch of mathematics that deals with the collection, organization, analysis, interpretation, and presentation of data.
+Statistics helps us understand data and make decisions based on that data.
+there r 2 types of statistics 
+
+(a)Descriptive->summarize,5r summary,foucus on what data says
+
+(b)inferential->makes predictions or draw conclusions,goes beyond the data ,eg:Hypothesis testing,ttests,p-values basic def->
+"Its a brach of statistics that helps us to make predictions or decisions about a popualtion based on a sample data
+
+
+
+
+
+
+HYPOTHESIS TESTING:-
+its a statistical method used to decide whether thares enough evidence in a sample to support a claim about a population(its in exisistance beacuse we cannot judge evrything by probability)
+
+Ex:- Now to test the coin is fair or not i will do a hypothesis testing and for the test we have to define 2 hypothesis NULL and ALTERNATE
+so here the NULL HYPO-> coin is fair(it see's the positive side)
+            ALTERNATE HYPO->Coin is unfair(negative)
+now we will do the EXPERIMENT and after the exp we will accept or reject the null Hypo           
+EXPERIMENT->lets say before exp we got the info our mean is 50 and std is 10 and we have normal distributions now i performed the exp and got 30 times head can we say ou coin is fair?
+so to see whether the coin is fair or not our exp head count must be close to mean but how much closer for this we will use a imp concept of significance value
+significance value is set by the domain expert and lets say that the value is 0.05 and is denoted by aplha and using this value we caluclate the confidence interval that will be 1-0.05=.95
+(there r generally only 3 significance value set by the domain expert i.e 0.10,0.05,0.01)
+so it the count of the heads is more or in the are of the confidence score then we accept the NULL hypo i.e coin is fair and if not in the range of the CI then ALTERNATE hypo
+
+
+
+
+TYPE1 AND TYPE2 ERROR
+
+so based on this info we will have 4 outcomes:
+
+(1)We reject the null hypothesis in reality it was fale
+(2)We reject the null hypothesis in reality it was true[type 1 error]
+(3)We accept the null hypo in reality it was true
+(4)We accept the null hypo in reality it was false[type 2 error]
+based on all these info we can create a confusion matrix
+
+
+
+ONE TAILED AND 2 TAILED TEST
+the experiemnt in the hypothesis test are performed by the follwing test
+
+
+
+Z-TEST
+
+when to use z-test
+~The sample size is greater than 30
+~we must know population variance or std
+
+what does it check?
+is the sample mean significaantly different from popualtion mean 
+
+z-test formula = sample mean - popualtion mean/(popualtion std/underroot of sample size)
+and if the the alue is less than the zivalue(from www.ztable.com) then we accept the ALTERNATE hypo vice versa
+
+
+
+
+
+T-TEST
+
+~when we have unknown population std we will use t-test
+~sample size is can be less than 30(if more than 30 and the popualtion std is not given then perform the t-test)
+
+t-test formula = sample mean - popualtion mean/(sample std/underroot of sample size)
+
+But in t-test we will calculate the degree of freedom and the formula= n-1 and we have to look the critical values in the t-table
+
+IN THE TITEST WE ARE NOT THAT CONFIDENT ABOUT THE STD THEREFORE ITS VALUE IS LESS THAN THE Z-VALUE FORM THE Z-TABLE
+
+
+
+
+TWO SAMPLES 
+
+"you use two-sample tests(whether t-test or z-test) when: u have 2 different groups(samples) and u want to compare their means to sss if there is a statistically significant difference between them
+
+eg:-comparing test score of class A and class B
+
+formula for 2 sample Z-TEST:- (X1-X2)/(underrot((pop1_std^2/n1)+(pop_std^2/n2)))
+here X=mean
+
+formula for 2 sample T-TEST:- (X1-X2)/(underrot((sample1_std^2/n1)+(sample_std^2/n2)))
+here X=mean
+df = min(n1-1,n2-1)
+
+
+
+
+
+CHI SQUARE TEST
+
+~the chi-square test is used to check if there is a significant association between 2 categorical variables it hepls to answer these questions:-
+
+-is there a relationship bet gender and voting preferencr?
+-Do 2 different marketing stratergies result in different customer preferences?
+
+formula = X^2 = summation((observed frequenct - expected frequency)^2 / expected frequency)
+
+                         Chi-square (χ²) test is always right-tailed.
+
+Oi = observed frequency(actual data)
+Ei = expected frequency(what we except under the null hypothesis)
+
+~~~ steps are similar
+1-Null H0
+2-Alternate H1
+3-Calculate Expected Frequencies(E): for each cell in your data the expected frequency is calculated using:
+
+Ei = (row total X colum total) / Grand Total
+degree of freedom(dof) = (r -1)(c - 1)
+r=no.of rows c=no.of cols
+
+so once we got the chi square value we compare the value by the critical values(from chi square table aplha should be given) and if the value is not in the range of the confidence interval then we reject
+
+
+
+
+
+                IN ALL THE TEST WE COMPARE THE P-VALUE WITH THE SIGNIFICANCE VALUE(ALPHA)
+                AND MOST OF THE TIMES DOF IS DIRECTLY NOT USED IN FORMULA IT IS USED TO SEE THE P-VALUE FROM THE TABLE BUT IN PYTHON IT DIRECTLY CALCULATES IT
+
+
+
+ANNOVA TEST                
+
+~anova(analysis of variance) is used to compare means of more than 2 Independent groups to check if at least one group mean is significaantly different
+
+
+
+COVARIANCE AND CORRELATION
+
+~covariance tells how 2 variables change together
+we use it when we want to see the realtion between 2 cols use in linear reg
+
+cov(X,Y) = summation[(Xi - X)(Yi - Y)]/n-1
+it the value is + then one value increases with other
+~ to check the strenght of the realtion we have to use coorelation(r)
+
+r = cov(X,Y) / std(X).std(Y) -1<= r <=1
+
+Variances are always positive
+
+Always right-tailed
+
+ Range: 0 to +∞
