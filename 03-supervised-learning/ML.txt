@@ -1,0 +1,1163 @@
+Types of Machine Learning
+1. Supervised Learning
+
+Meaning:
+In supervised learning, the model is trained on labeled data, where both input and correct output are known.
+
+Data format:
+Input → Output (label)
+
+Examples of algorithms:
+
+Linear Regression
+
+Logistic Regression
+
+Decision Tree
+
+KNN
+
+Support Vector Machine (SVM)
+
+Example use cases:
+
+House price prediction
+
+Email spam detection
+
+Student pass/fail prediction
+
+2. Unsupervised Learning
+
+Meaning:
+In unsupervised learning, the model is trained on unlabeled data, where no output variable is provided. The model finds patterns or structure in data.
+
+Data format:
+Only Input (no output)
+
+Examples of algorithms:
++
+K-Means Clustering
+
+Hierarchical Clustering
+
+PCA (Principal Component Analysis)
+
+Isolation Forest
+
+Example use cases:
+
+Customer segmentation
+
+Data compression
+
+Anomaly detection
+
+3. Semi-Supervised Learning
+
+Meaning:
+Semi-supervised learning uses a small amount of labeled data and a large amount of unlabeled data to train the model.
+
+Data format:
+Few labeled + many unlabeled samples
+
+Examples:
+Image classification with few labeled images
+Speech recognition systems
+
+Example use cases:
+Medical image analysis
+
+Text classification with limited labeled data
+
+4. Reinforcement Learning
+
+Meaning:
+In reinforcement learning, the model learns by interacting with the environment and improves its performance based on rewards and penalties.
+
+Learning method:
+Trial and error with reward system
+
+Examples:
+AlphaGo
+Game playing agents
+Robotics
+Example use cases:
+
+Self-driving cars
+Robot navigation
+Game AI
+
+
+
+----------------LINEAR REGRESSION-----------------
+Definition:
+Linear Regression is a supervised machine learning algorithm used for regression problems, where the output is a continuous numerical value. It models the relationship between input features and output using a linear equation.
+
+Assumptions of Linear reg->
+[1]Linear relationship bet input and output
+[2]multicollinearity(no 2 or imput should be dependent on oneother like there should not be any relation bet input if one chages phter should remain constant) we can also use heatmap
+                  from statsmodels.stats.outliers_influence                   
+                  import variance_inflation_factor
+
+                  vif = []
+
+                  for i in range(X_train.shape[1]):
+                      vif.append(variance_inflation_factor    (X_train, i))
+[3]Normal Residual(i.e error should be normally distributed)
+[4]Homoscedasticity(having same scatter)
+[5]No Autocorrelation of error(there should be -ve Autocorrelation) Here, autocorrelation means the residual should not be related, for example Here, auto-correlation means the residual should not be related. For example, if the error is coming to be positive in each row, like +2 +3, then this is a positive correlation, or even following a negative time series, -2 -3, then it is not good and it breaks the assumption of linear regression. There should be negative correlation, that each residual should be independent and to real-world data. 
+
+Key Points:
+Type: Supervised Learning
+Used for: Regression (prediction of continuous values)
+Output: Continuous numerical value
+Uses: Linear equation
+Optimized using:
+Closed-form solution (Ordinary Least Squares)
+Gradient Descent
+
+types->simple,Multiple,polynomial,regularization
+~~The working of linear Regression is that 1st it sees wherther the data is linear or sort of linerar if its perfectly linear then by finding the equation of line we can find the y values or the output if its sort of linear then we plot the best fit line so that it covers the maximum points
+the equation of line can be y = mx + b
+and the values of M and B can be found by 2 methods 
+closed form(Ordinary least square) and 
+non-closed form method(gradient descent)
+~~both the techiques are equalu useful the closed form methods is used when is 1D or 2D its whereas gradient descent can be used for multidimensional data
+~~generally sklearn uses the closed from method and the SGD regression also gradient descent
+
+    closed form(Ordinary least square)
+~b = ybar - m*xbar
+~m = summation [(Xi - Xbar)(Yi - Ybar)] / summation(Xi - Xbar)^2
+~internally it uses error detection== J = summation(di^2) where d=distance of each points from the line 
+    the formula can be written as J=summation(Yi - Yhat)^2 where the Yi=actual vaue and Yhat=predicted value
+
+    E(m,b) = summation(Yi - mxi - b)^2 (this value should be minimum)
+    now after that it uses the logic of caculus th fimd the min values i.e minima and maxima will partially diffrentiate the eq w.r.t m and b then will find hte value
+
+
+Regression matrix(tells the efficiency of the regression)
+
+[1]MAE (summation | Yi - Ybar | / n)
+  advatage->same unit,robust to outlier
+  dis->no diffrentiable
+[2]MSE (summation (Yi - Ybar)^2 / n)
+  adv->loss function
+  dis->unit will be square of y unit,moore impact of outlier
+[3]RMSE (underoot of MSE)
+   use to get the same unit
+[4]R2-score(coefficient of determination or goodness of fit) it tells how much % good is my linear regression if the same would have done with mean i.e only one value R2 = 1 - (SSr / SSm)
+here SSr-sum of square error in regressionline
+     SSm-sum of square error in mean line
+     it can be -1 to 1
+     if its 0.80 it means the cgpa explain 80% of variance in lpa
+[5]Adjusted R2 score->R2 score increases or reamins the same with some irrlevant cols therefore Adjusted R2 score is used
+     R2adjusted = 1 - [(1 - R2)(n - 1) / (n - 1 - k)]
+     here n = no.of rows and k = no.of independent cols(specially used in multiple lr)
+
+Multiple linear regression
+
+y = BetaNot + Beta1X1 + Beta2X2 equation of plane
+Beta = [(Xt * X)^-1]*[Xt*Y] t= transpose
+all this is ols(closed form)
+but its time complexity is O(n^3) therfore gradient descent is used 
+
+   GRADIENT DESCENT 
+Gradient Descent is an optimization algorithm used to find the best values of model parameters (weights and bias) by repeatedly moving in the direction that minimizes the error (loss).
+
+E(m,b) = summation(Yi - mxi - b)^2 
+steps[1] -> select a random b(intercept)[here we have assumed that m=constant ] for which E(loss func) is min so here it caclulates the slope and on the sign(+ or - )it shiftes its position to get the min values for whcih E is min
+!~ bnew = b(old) - slope but by using this equation there can be drastic change
+   bnew = b(old) - learning rate*slope(of b(old)) (learning rate = 0.01 or 0.1)  now the main question 
+     ~~When to stop-->
+       (1)Take the difference (bnew - b(old) = 0.00001 or appreoximately = to 0)
+       (2)Iteration limit = 1000 (epochs)
+
+here we diffrentiate both the slope and the intercept to get the point with min value and since both the values direction are present therefore it is called gradient
+
+in many algo the various affecting parameters this are the 
+[1]Learning rate->most optimum is 0.1 too less or too more can efect the lr
+[2]Effect of loss function->in our case we have taken the loss fucntion as mean square error(convex fucntion->here we will have only one global minima and the if we plot aline then it will not cross any function) apart from that we have the non-convex loss function where there r one local minima and one golbsl but here our result can get stuck and sometimes we can get stuck in saddle point(where there is large slope and the points increment very slowly)
+[3]Effect of data->means our data should be scaled accurately
+
+there r bacically 3 types of gradient descent
+[1]Batch GD(one update is after observing all the data,when func is convex) 
+[2]Stochastic GD(for all the data there is one update like 300 update in 300 data) 
+[3]Mini batch GD(here we define a batch) 
+
+    BATCH GD
+here we take iteration of m and b like Mnew = Mold - learning rate*solpe so the slope is cacluated by oberving all the data so its called batch GD(slow,compuational problem so to prrvent it we use Stochastic it takes only 1 row to identify how much is the error(its fast but not error free)mini batch is the middle term between the batch and the Stochastic) 
+
+~~to calculate the loss function of m no.of od rows we use delL/delBetam = -2/n summation (Yi - Yihat)*Xim
+
+cannot work with large datasets slow intially
+
+    STOCHASTIC GD
+here we update the values after observing only one row
+-faster convergence
+-the row selection is randomly
+-no steady solution
+
+ TIME COMPARISON
+sometimes when the no.of epoches are same then bacth GD may be faster 
+
+works best fro -big data and for non-convex functions
+
+~~here very imp concepts are the learning scheules i.e the lr varies according to the epochs and the no.of cols to get the precsie results
+
+
+
+     MINI BATCH GD
+~same the batch GD but we update the coefficients batches wise like n=1000 batches = 100 no.of batch=10 therfore no.of updates will be 10 per epcohes
+
+
+
+   SOMETIMES THE DATA WE GET MAY NOT ALWAYS BE LINEAR THEREFORE WE SOMETIMES USE POLYNOMIAL Regression
+
+in this we train our data on data by cacluating the degree 
+like if the degree(hyperparameter) is 2 then we will not train x,y but will train the model on X0,X1,X2,Y it will form the equation y = Beta0 + Beta1X1 + Beta2X^2 
+we call it polynomial linear regression because the relationship between the Y and the Beta values are still linear
+
+
+      BIAS VARIANCE TRADE - OFF
+
+BIAS="THE inability of the ml model to truley capture the relationship in the training data"
+
+overfitting->when the training error is low but the test error is very high in this case the variance will be high so this is overfitting
+ IN linear regression for y=mx+b when the value of m is very high then its the case of overfitting
+
+undefitting- model not able to capture the relationship in the training data itself 
+
+so in short we should selct the model whcih has low bias and low variance this is nothing but bias-variance trade OFF
+  ~ the 3 methods to do that 1- regularization
+                             2- Bagging
+                             3- Boosting
+
+
+
+REGULARIZATION 
+
+~~in ML it is a technique where we add some extra information in our model to reduce overfitting
+   the 3 techiques r 1- Ridge(L2)
+                     2- lasso(L1)
+                     3- elasticnet 
+
+
+  RIDGE REGULARIZATION(L2 norm)
+so in the loss function we add some extra term in the 
+loss function L = summation(Yi - Yihat)^2 + lamda(m^2) 
+where lamda=hyperparameter(0 to infinity), m=slope the added extra term is also called as shrinkage coefficient
+
+so in short this algorithm tells the model to select the line with less loss because we added the extra term(sometimes the bias can be more but the VARIANCE will be significantly less)
+--this is also called L2(suppose we have n no.of input cols then the the extra terms will be lambda(M1^2 + M2^2 + M3^2 + Mn^2))
+  
+  so the ridge regularization works by adding the lambda term in the m(slope) which also affects the b(intercept)
+
+  5 key points 
+
+  1->All the coefficient starts to shrink(i.e close to zero but not 0)
+  2->Higher values are impacted more like if coefficient->1000 it will decrease at a larger scale
+  3->Bias variance trade off - the bias and variance both the values depend on lambda 
+    if the lambda is too low then bias dec(overfitting decrease) and var will increas vice versa
+  4->Impact of loss function - close to zero(shrink)
+  5->why ridge - not easy to understand for me but for the sake of writng its takes the ridge estimate(around the edge)
+
+
+
+  LASSO REGRESSION(L1)
+
+so in the loss function we add some extra term in the 
+loss function L = summation(Yi - Yihat)^2 + lamda(|W1| + |W2|) here we take the absolute value not the square
+where lamda=hyperparameter(0 to infinity), m=slope the added extra term is also called as shrinkage coefficient
+
+so here the diffrence bet the L2 and L1 is that in L2 when we increase the alpha the line becomes more flat but in L1 when we increase the alpha the line becomes more straight and at alpha=1 it is almost a straight line. This is because as we increase the alpha, the regularization term becomes more significant and the model is forced to fit a simpler line to the data, which can lead to underfitting. In L1 regularization, the coefficients of some features can become exactly zero, which leads to feature selection and a sparser model. In contrast, L2 regularization shrinks the coefficients towards zero but does not set them exactly to zero, resulting in a less sparse model. therefore for complex data use lasso
+
+  Effect->The loss fucntion will gradually moves towards 0 and will stop 
+  some of the coefficient also become 0 indicating they r not imp 
+
+  WHY DOES LASSO REGRESSION CREATES SPARSITY
+  -here sparsity means when we increas the value of lambda them some of the coefficient becomes zero(because the fromula is like that = [summation(Yi - Ybar)*(Xi - Xbar) - lambda] / sum(Xi - Xbar)^2)
+
+  practically some of the coefficient may also have negative values but in the output it will show till zero only but when the model gets -ve coefficient its formula will automatically changed and in the deno it will be + lambda instead of '-'(thats why our algo stops at 0 because after that hte performance gets worse)
+
+  WHY DOES RIDGE REGRESSION DOES NOT CREATES SPARSITY
+  its formula is different 
+   m = [summation(Yi - Ybar)*(Xi - Xbar)] /sum(Xi - Xbar)^2 + lambda
+   here the lambda is in the deno in real world the neu will never be 0 it can be 0.0001 so thats why the values of m can <<<0 but not ==0
+
+
+   ELASTICNET REGRESSION
+
+   sometimes we are not able to decide whether to use l1 or l2 so in that case v use this reg combination of both
+
+   L = summation(Yi - Yihat)^2 + a||W||^2 + b||W||
+   in sklearn implementation we get 2 hyperparameter lambda = a+b and l1_ration = b / a+b  by using by default the value of lambda=1;l1_ration=0.5 i.e will use 50% both the regression if we change the l1_ration=0.9 then 10%ridge and 90%lasso
+
+   if our input cols have multicollinearity them we should use elasticnet reg
+
+
+---------------LOGISTIC REGRESSION-----------------
+
+Requirement->
+1-Data should be linerarly classified(can be separated)
+equation = AX1 + BX2 + C = 0
+to find m=-A/B and b=-C/B
+
+perceptron trick(PT) 
+--this approch does give the most Optimized result
+  according to the given equation using the PT we have to calculate the values the of A,B,C at start taking the random values A=1,B=1,C=0  
+  the PT trick runs a loop 1000(epochs) times and each time a randomly selects a point and ask the point whether its position is true or not if its not then the line shift towards that point so that its now on the opposite side
+
+  instead of normal loop it can take while convergence loop in every loop it sees how many points are not in correct pos(misclassified) and changes the line accordingly
+
+  how to identify lable points->after getting the eq put the values of X1,X2 if its >0 then its in +ve region and vice versa
+
+  transformation of lines->
+  if a -ve point is in the +ve region then in their coordinate will add extra one and the minus it with the main equation 
+  e.g-> (3,2)->(3,2,1) if the equation is -- 2X + 3Y +5 =0
+  then the it becomes-> 2X + 3Y + 5 = 0
+                      -(3X + 2Y + 1) = 0
+  vice versa
+  IN ML WE NEVER APPLY SUCH BIG TRANSFORMATION
+  so we take a learning rate so we multiply this (3X + 2Y + 1) witha learning rate e.g-0.01 so the formula becomes
+  new coeff = old coef - learning_rate*coordinates
+  so the change is very gradually
+  simplified algo-> Wnew = Wold + learning_rate*(Yi - Yihat)*Xi
+
+  here the problem with the perceptron trick is it does not try to gives the best sol therefore we change the approch and use both the classified(line-pull) and uncl(line push) points so there will be an equllibriun and the line will stop in the center the push and pull action depend on the distance of the line form the point
+  i.e Wnew = Wold + learning_rate*(Yi - Yihat)*Xi 
+  we dont want the (yi - Yhat) = 0
+  therefore will be using sigmoid function
+  SIGMOID FUNCTION Y(Z) = 1/(1 + e^(-Z))  the main logic of this func is  -infi<Z<infi then 0<Y<1 it means the output will always lie bet 0 and 1 we can also use it as probabilty like % chances 
+  and ulinke the step func(0 or 1) the otput of Yi - Yihat will never be 0 (0.1-0.9 mostly -ve as well)
+
+  but again the sigmoid+perceptron not gives the best sol so we use maximum likelihood i.e to multiply all the Yihat values of all the modles and see which line or the model give the highest value but in the real world dataset the values will be very samll and large decimal so we instead use log(ab) = log(a) + log(b) (but the probelm is the ans will always be -ve) so we add '-' i.e log(ab) = -log(a) -log(b) - ....
+  now this term is called the cross entropy but here we consider the minimum value as best fit
+  but since we want to consider all the required from the input 
+  Loss -> log(yi Yihat) = summation(-[Yilog(Yihat)] - [(1-Yi)*log(1-Yihat)])
+  
+  so our loss func-> -1/m[YlogYhat + (1-Y)*log(1-Yhat)]
+  where Yhat = Sigma(X.W) X=X1,X2 W=coefficient
+
+  avg loss -> loss/n
+  this is called the log-loss erroe or the binary cross entropy
+  no closed form solu exists for this so we use gradient descent
+
+  derivative of sigmoid func- sigma`(x) = sigma(x)[1 - sigma(x)] so the sigma(x) is used in its own derivative which is helpful
+
+  gradient descent approach-> Wnew = Wold - learning_rate*(del L / del W)
+  where del L/del W=[doL/doWnot,doL/doW1...]
+
+  now the final formula->delL/del W=-1/m(Y - Yhat)X
+
+  Wnew = Wold + learning_rate*[1/m*(Y - Yhat)*X]
+
+  where w=[W0,W1,W2,...Wn] shape[n+1,1]
+   X=[1,X11,X12,X13,...X1n
+     1,X21,X22,X23,....X2n] shape(m,n+!)
+
+   Y=[Y1,Y2,Y3,...Yn](m,1)
+  Yhat=[Y1hat,Y2hat,Y3hat,...Ynhat](m,1)
+  (here broadcasting is used while calculating the Wnew like taking the transpose to get the desired shpe of the matrix)
+
+
+CLASSIFICATION METRICES
+1-Accuracy-> no.of correct prediction/no.of prediction
+  Accuracy of multi-classification problem we use the same logic
+  how much Accuracy is good?->it depends upon the data and the type of problem we r solving
+  now it does not classify the type of error if the solution is binary
+  here comes 
+2->Confusion Matrix-> prediction
+                      1        0
+                   1[ TP       FN
+            actual
+                   0  FP       TN ]
+  and we can also calculate the accuracy with it->
+  acc = (TP+TN)/(TP+TN+FN+FP)
+  False positive is called - TYPE-1 ERROR
+  False Negative - TYPE-2 ERROR 
+when accuracy is misleading?->Imbalanced dataset like there 900 +ve and 100-ve somewaht like that eg:-- identifing terrorist among 100000 passengers on an airport to solve this problem we use futher matrix
+
+3-> Precision--what proportion of predicted        
+possitives is truly +ve?
+   Precision = TP/(TP+FP)
+
+4->Recall--what proportion of actual +ve is   correctly classified?
+   Recall = TP/(TP+FN)
+
+but in sklearn behind the sence the P and R of the -ve(0) are also cacluated if we set average=None
+
+here we 1st see which type of error is more dangerous as compare to other like if type-1 is more dangerous then will use Precision vice versa
+but some times we r not able to classify which type of error is mor ednagerous therefore we use F1 score
+F1 score->its the avg of Precision and Recall but its not arithmetic mean its hormonic
+  F1 score = 2PR/(P+R)
+  F1 score always penalizes the lower value 
+
+we can calculate all these values of multi-class data(use the make_classification from metrices sklearn)
+
+    ROC curve(Reciver operator characteristics)
+
+why it exists->Threshold selection (related to classification problem(yes or no))
+Ture positive Rate TPR->Benefit->> TP/(TP+FN)(it means out of all spam emial how many Email were correctly classified as spam by our model)
+
+False positive rate FPR->Cost->FP/(FP+TN)(out off all the not spam we classified it as spam)
+the graph plotted bet the TPR and FPR(we select the point were Benefit is more with less cost)
+when we decrease Threshold then both fpr and tpr will increase vice versa 
+
+AUC-ROC(area under curve)
+
+The AUC-ROC measures the entire two-dimensional area underneath the entire
+ROC curve from (0,0) to (1,1). AUC provides an aggregate measure of
+performance across all possible classification thresholds.
+An AUC of 1 indicates that the model has perfect discrimination: it correctly
+classifies all positive and negative instances.
+•
+An AUC of 0.5 suggests the model has no discrimination ability: it is as good
+as random guessing.
+•
+An AUC of 0 indicates that the model is perfectly wrong: it classifies all
+positive instances as negative and all negative instances as positive.
+•
+In practice, AUC values usually fall between 0.5 (random) and 1 (perfect), with
+higher values indicating better classification performance.
+
+IN LOGISTIC REG THE CLASSIFICATION WILL ALWAYS NOT BE BINARY IT CAN BE 4 OR MORE CLASSES so in this case we use softmax reg or multinomial LR
+
+Z = X11 * 1st_coeff + X12 * 2nd_coeff
+softmax eq - sigma(Z) = e^Zi/summation(e^Zj)
+
+change in the loss function
+L = (-1/m)[summation(m,i=1)summation(k,k=1) Yk(i) * log(Yhatk(i))]
+
+Yhatk(i) -> softmax(W1(1)*X11 + W2(1)*X12 + W0(1)) it will be applied for all cols 
+here we will be usign GD to optimize the loss func 
+
+
+  BAYES THEOREM
+
+if there 2 events A and B then 
+p(A|B)       =  p(B|A)    * p(A) /  P(B)
+posterior prob  likelihood  prior   Evidence
+
+proving it 
+conditional probability
+P(A|B) = P(A intersection B)/P(B) ___(1)
+
+now A intersection B = B intersection A
+
+P(B|A) = P(B intersection A)/P(A) = P(A intersection B)/P(A)
+
+P(A intersection B)=P(B|A)*P(A) _____(2)
+
+P(A|B) = P(B|A)*P(A)/P(B)
+
+NAIVE BAYES
+logic used->Chain rule for conditional term
+            conditional independence - P(A|B,C)=P(A|B)
+
+the final formula = 
+P(Ck|X) =  [P(Ck)*pie(n,i=1)P(Xi|Ck)]/P(X)
+
+Yhat = Argmax [P(Ck)*pie(n,i=1)P(Xi|Ck)]/P(X)
+this is called maximum a postioriori rule
+(for text data)
+
+KNN(K-neigherest neighbours)
+"u r the average of the 5 people u spend the most time with"
+works by majority count
+
+now how to select the k?
+there r 2 approachs
+1--Heurtric approach here we take sqrt(n) n=no.of obervation we avoid even value for K
+
+2--Experimentation
+
+ DECISION SURFACE
+-internally uses a numpy meshgrid(we can plot it using mlextend)
+
+ OVERFITTING AND UNDERFITTING IN KNN
+
+when our model is remembring all the minor changes for all the data point its overfitting(occurs when high variance)
+when the no.of n=more or equal to data points its called underfitting
+
+ LIMITATION
+
+1-large datasets(no.of obse = 4lakh)
+  knn is a lazy learning tech all the works are during the prediction phase(in training phase no work is done)
+
+2-High dimensional data(whne no.of features is moreit lead to cod threfore dis may not always be correct)
+
+3-not good with outliers
+
+4-non homogenous feature sclaes (therefore we use scaling)
+
+5-Imbalanced datasets(eg yes-98% no-2%)
+
+6-its good for prediction not the inference(canot calcuate impact therefore acts like a blackbox model)
+
+    SUPPORT VECTOR MACHINE 
+
+Its like a advanced version of LOGISTIC reg here the selection of hyperplane is based on the max dis like wider points should be covered and that hyperplane is called margin maximizing hyperplane
+
+so here the basic logic is that we select a random hyperplane and fromt that plane we draw 2 hyperplanes  1st when our hyperplane touches a + point and 2nd when it touhes a -ve point 
+and then we calcualet a margin i.e dis bet the 2 new hyperplane and denote it as 'd' we peform same step multiple time as much we wnat and slect the hyperplane that has the highest margin value
+
+Support vector concept
+-the +ve and the -ve points i.e the 2 data points that tells the hyperplane to stop
+
+ADVANATAGES
+
+SVM ARE VERY ROBUST TO OUTLIERS(handel it well)
+WORKS ON NON-LINEAR AS WELL AS LINEAR DATA
+CAN BE IMPLEMENTED TO BOTH CLASSIFICATION AS WELL AS REGRESSION PROBLEM
+
+Decision rule-which point will lie on the -ve side or the +ve side
+W.U + b >=0
+
+for eg:--2X + 3Y - 3 = 0
+new point (2,3) then 2(2) + 2(3) - 3=7 lies on the +ve region
+          (-2,0) then -2(2) + 0 -3 = -1 lies on the -ve region
+
+so we add label for +ve and -ve
+Yi(W.X + B)>=1 here Yi=label 
+for support vecotrs Yi(w.X + B)=1
+
+our main optimization func
+Argmax          2/ ||w||
+(W* , b*) =     such that Yi(W.Xi + b)>=1
+but this formula works only when the data is linear
+
+therefore here comes SVM error
+=marginal error + classification error
+
+as we know max(f(x)) = min[1/f(x)]
+
+argmin
+
+In SVM:
+
+C = Regularization parameter
+
+Meaning:
+
+Controls trade-off between:
+
+Maximizing margin
+Minimizing classification error
+| C value     | Meaning                                                                                  |
+| ----------- | ---------------------------------------------------------------------------------------- |
+| **Large C** | Less tolerance for errors → tries to classify ALL points correctly (risk of overfitting) |
+| **Small C** | Allows some errors → focuses on wider margin (better generalization)                     |
+
+KERNEL trick
+-use to classify data when its non linear
+here we use a mathematicla func to covert low dim data to high dim data so that data points are linearlly spearble
+types-RBF(radial basis function)
+      Polynomail
+      sigmoid
+
+
+  DECISION TREE
+
+programatically decision trees are nothing but a gaint structure of nested if-else condition
+
+mathematically speaking ,decision tress use hyperplanes which run parallel to any on of the axes to cut your coordinate system into hyper cuboids
+
+structure--
+Root node
+splitting
+Decision node
+leaf node
+
+ADVANATAGES-Intuitive and easy to understand
+            Minimal data preparation is required
+            The cost of using the tree for inference is logarithimic 
+
+Disadv- overfitting
+        prone to error for imbalanced dataset
+
+
+HERE WE SELECT THE BEST COL/FEATURE THAT DIVIDES THE DATA 
+
+how decision tress works
+
+ENTROPY
+-measure of purity/impurity in basic terms
+more knowledge is less entropy
+
+formula = summation(-Pi*log2(Pi))  Pi=frequentist probability of class i(class label)
+
+-More uncertainity more entropy
+-for 2 class prob max=1 min=0 but not for grater that 2
+both log2 loge can be used
+
+    Entropy for continuous variables
+
+shortcut-For any given data if we plot a KDE curve and which ever data is less peaked then it has high entropy
+
+INFORMATION GAIN(decides the data splitting)
+
+it is a metric used to train decision tress this metric measures the quality of a split
+constructing a DT is all about finding attribute that return the highest info gain
+
+formula == E(parent) - {weighted avg}*E{children}
+
+Decision tree applies a recursive greedy search algo in top bottom fashion to find info gain at every level of the tree and will select the max IG
+
+GINI IMPURITY
+
+same as the entropy but the only diff is in the formula
+Gi = 1 - (Py^2 + Pn^2)
+
+lets see this with eg
+Py=0.5 and Pn=0.5 
+then Entropy = 1
+     GI = 0.5
+its more computationally faster but we should use hyperparameter tuning 
+
+WHEN WE HAVE A NEUMERICAL COLUMN AS A FEATURE-then it will create a problem because there will be n unique values
+step1-sort the data on the basis of neumerical col
+step2-for every value of neu cols split the data into 2 parts
+
+so will get a lof of tresscalculate the entropy and the IG 
+step3-Max{IG1,IG2,IG3...}
+step4-do it recursivly till we get the leaf nodes
+
+for this algo the complexity of training is more but for testing its Log(n)
+
+  REGRESSION TRESS 
+
+~~In case of linear regression it mostly works with almost lienar data but regression trss wokrs better with non-linear data 
+~it works by caclulating the SSE(sum of squared error) suppose at x1 point the error is minimum then the splitting point will be x1
+
+
+    ENSEMBLE LEARNING 
+
+its just likea group
+we are combining various ml modles to make a new one
+
+we have to make sure all the modles are different so that it can cover wide range of techincal areas
+or we can use same algo but with diff data
+
+WISDOM OF THE CROWD
+-its just like audiance vote in KBC it says that majority of ppl take right decison as comapre to one Person 
+
+TYPES-
+      Voting ENSEMBLE(Base model are diff algo)
+
+      Bagging ENSEMBLE(Bagging->Bootstrap aggregation same algo diff data special case-Random forest)
+
+      Boosting ENSEMBLE(same model same model but every model reduces the mistakes of its previous models)
+
+      Stacking ENSEMBLE(here we are assiging
+                        weights to our model)
+
+  DISADV-
+  high computational power required
+
+  ADV-
+  Improve performance-bias variance trade off
+  roboust
+  mostly applied at last 
+
+[1]Voting ENSEMBLE
+diff algo same dataset
+Assumptions-models should be diff,accuracy of each model should be greater than 50
+
+hard voting classifier vs soft voting classifier
+hard - normal by default majority mstters the most
+soft - probablity or avg maaters the most like if one model has high accuracy then it will select the result
+but we should use both and compare the result
+
+ BAGGING 
+
+Bagging->>Bootstraping(randomly drawing samples form a population) + Aggregation(taking the majority count and deciding the output)
+
+here we train the model on diffferent datasets so we use Bootstraping
+Bagging gives consistent result as it make sthe model as Low bias and low var 
+low bias-if we use the DT,SVM,KNN like algo
+low var-the data points are distributed randomly among each model so combine var of all modle will be low
+
+Bagging implementation->random forest
+
+Bagging supports column sampling
+
+type
+-Pasting(same as row sampling but without replacement(no same row))saddle
+-Random subspaces(col sampling)
+-Ramdom patches(bot row and col sampling)
+
+
+
+      RANDOM FOREST 
+
+A Random Forest is that type of algorithm which gives one of the best results as compared to any other algorithm, and it supports all types of data we have, whether it is normal, whether it is skewed, any type of distribution. So it is the most used algorithm. 
+Along with Gradient Boosting and XGBoost these three algorithms perform always best in any type of ML. 
+Random forest is a bagging technique, like random forest is a collection of multiple trees. 
+so many DT is RF 
+
+Random, Because it uses bagging and inside bagging bootstrapping is used, which is sampling the data. So, random word is came from sample, and forest means group of trees. 
+
+bias=not good at training data
+variance=very good at train but not at test we want to achive Low bias and low var there is inverse relation 
+
+low bias high var - Fully grown DT,SVM,KNN
+
+HBLV-linear reg , Logistic
+
+but Random forest can convert LBHV to LBLV
+
+hyperparameter for RF classifier->num_est - no.of dt , max_fature-no.of cols used , bootstarp-ramdomly elect or not (if True then no replacement)
+max_samples - if bootstarp is true then no.of samples to draw from X to train ech base est it redues overfitting as all the model are diff resulting in generalization 
+n_jobs = to run parallel
+class_weight - assign weight to each feature helpful when imbalanced dataset
+
+OOB evaluation-out of bag
+used when sampling with repalcement is doe boostarp=Ture
+Some of the rows are not selected when we keep bootstrap true, so that unselected rows can be used for testing. Mathematically, it is proven that 37% rows are not used when we are performing bagging with replacement. 
+
+FEATURE IMPORTANCE 
+
+DT and RF has the frature of _feature_imp which tells the imp of each features 
+mathematically it uses gini impurity '
+
+formula = ni= (N_t)/N*[impurity - ((N_t_r/N_t)*right_impurity) - ((N_t_l/N_t)*left_imp)]
+
+fi = summation ni(of respectvie feature)/summation of all ni(features)
+
+random forest avg out all the Feature imp 
+If our data has high cardinality, then we can use scikit-learn's permutation IMPORTANCE class. 
+
+
+
+  ADABOOST 
+
+it was used early used for img recognition but replaced by DL
+-its a stage wise additive method
+
+3-key terms
+[1]Weak learners
+[2]Decision stumps(its a DT where max_depth=1)
+[3]+1 and -1(binary classificaton is +1 and -1 not 0)
+
+basic Logistic
+
+here Each decision tree corrects the fault of the previous decision tree. If the first decision tree is misclassifying some points, then the next decision tree will use up sampling to correctly classify those misclassified points in the current decision tree. Each decision tree will have a weight attached to it that is alpha. That is the importance, or higher the alpha, the better and more accurate the decision tree.And one more thing that matters is the information gain, that is, the entropy. Here we select that type of decision tree which gives the maximum information gain, that is, less entropy.  
+
+h(x) =  sign(alpha*h1(x) + aplha2*h2(x) + alpha3*h3(x) and so on.........)
+
+h(x) is 1 for +ve and -1 for 0
+
+Alpha Calculation 
+
+So, imagine there are three models. A having zero percent error rate, B having 100 percent error rate and C having 50 percent error rate. 
+
+- For Model A, the alpha value will be the highest because it has no error.
+- For D model, even though it is 100% giving a wrong result, it's still reliable because it is giving a wrong result every time. It will have a high alpha value in the negative term.
+- In case of Model C, the alpha value will be zero because it is not at all reliable. It may be wrong or it may be correct.
+
+So after making one model, the upsampling is done in such a way that the rows which were misclassified The weightage increases in the next model, and for the rows which were correctly classified, the weightage is reduced down. For incorrectly classified, the weight is boosted. This is done so that the next model does not make the same mistake as the previous model.
+
+for misclassified
+new_wt = current_wgh * e ^ alpha1
+
+for correctly classified
+new_wt = current_wgh * e ^ -alpha1
+
+If after adding all the updated weights we are not getting  one, then we divide each weight by By its current sum to normalize the value 
+
+Upsampling is done by generating some random numbers, and those random numbers should fall in a given range for each of the rows.So here, those data or row will be selected which has the maximum weightage according to the given range, and it may have repeated rows. 
+
+alpha = 1/2 log(1-error/error)
+
+hyperparameter-
+base_est = more used DT max_depth with 1 for DT
+n_est = no.of base models 
+learners_rate = 
+algorithm=SAMME or SAMME.r
+
+Learning Rate is directly multiplied to Alpha. And learning rate is a very important hyperparameter because it Because it reduces the amplitude of the alpha value. It reduces over-fitting and the learning rate ensures a proper learning and not directly jumping to a bigger point. It follows a proper standard way and make sure that the It reduces overfitting and the learning rate ensures a proper learning and not directly jumping to a bigger point. It follows a proper standard way and make sure that the learning is done properly. 
+
+Learning rate is also called the shrinking parameter or shrinking coefficient. 
+
+
+Bagging vs Boosting 
+
+[1]Types of  model 
+   bag-LBHV  boos-HBLV(decision stump)
+[2]sequential vs parallel 
+
+   bag=parallerl training boos-sequential as all the models learnds form tis pre model 
+
+[3]Weightatge of base model 
+   bag- same boos-diff 
+
+
+
+GRADIENT BOOSTING FOR REGRESSION 
+
+While doing regression gradient boosting, the first model is not a machine learning model, but it is just the mean of the output columns.So it means that for any data, if we will give it to the first model, the output will be the same. ih happens only when we use the loss func as LS(least sqaure) i.e MSE
+
+In case of regression problem, we use a loss function to tell the next model that how much mistakes the earlier model is making and that factor is called as pseudo-residual. 
+
+Pseudo residual is equal to actual minus predicted. 
+r11 = Y1 - F0(x1) Here it means that for the first decision tree, the residual value of the first column will be the actual output minus the mean output of the first model. 
+
+now talking about model 2 we will use a DT and the it will use gradient boosting such that the input col will remain the same but the output col will be the residual calculaed so that the  model could understand the error the prvious model is making so here the 2nd model will not predict the actual output but the residual
+to reduce the overfitting we multiply the ouptut of model 2 with learning rate(eta) generally 0.1 
+
+so for only 2 model y_pred = m1 + 0.1*M2 residual for m2 = actualdata - y_pred
+by increasing the no.of models we can make the residual cldoe the 0
+ we have to use max_leaf_nodes = 8 to 32
+
+ADABOOST vs GRADIENT Boosting
+
+maxleadnode - ada-1  GB- 8  to 32
+no weights to GB we use learning_rate
+
+The biggest advantage of boosting is adaptive learning (addtitve modeling). Here we break the complex functions into simpler and smaller functions so that it can learn scalability. Just like breaking a function f of x, which is equal to x plus sin x, into f of x and then sin x Because some of the relationships are difficult to capture, adaptive learning helps in getting the better output. 
+
+
+GRADIENT BOOSTING FOR CLASSIFICATION 
+
+Mostly the algo is the same but the only chage is in the Loss function that we are using which is logLoss fucntion
+
+so here in the 1st model we do not calcualte the mean but we calculte the log of odds
+here we divide the log e(no.of 1s/no.of 0s) or log(p/1-p)= Fo(x) 
+ we don't directly - the actual and predicted as it's a probability( o or 1) instead we apply the formual = 1/(1 + e^-log(odd)) so its the the 1st model value here we will set a threshold so iresspective of the input the answer will be same 
+
+for the 2nd model we will caulate the residual acutal-predicted
+
+
+
+
+
+                          XGBOOST(THE BEST) Extreme Gradient Boosting 
+
+its not a Algorithm, but it's based on the gradient boosting algorithm. It's a library, so xgboost is a library. 
+
+why Gradient boosting - flexible(any loss func but differentiable so it works on mny prob like reg class)
+            robust 
+            more used in kaggle 
+
+features
+[1]performance [2]speed [3]flexibilty.(supports c c++ java ruby)
+
+Supports distributed systems like Spark and Pi Spark Dask. 
+Support model deployment on Docker and Kubernetes 
+Good compatibility with workflows like Apache Airflow and MLflow. 
+Main problem it solves is that it solves all types of ML problems. 
+
+XGBoost provides the support for making our own custom metrics or making our own personal log function, like focusing more on the positive value than the negative values, or focusing on false positive more than false negative. 
+
+XGBoost training time is very less, like 10 times less than other models, so it's one of the biggest benefits. 
+
+XGBoost performs parallel processing. Here, parallel processing does not mean model building, because building the model is done in a sequential way in boosting. 
+Here, the parallel processing is done for each model individually. Like there are multiple features,Like in decision tree, if parallel processing is not performed, then each feature is evaluated individually or sequentially, and then the Gini is calculated. But in case of XGBoost, parallelly the decision trees are grown where each and every Features Gini value is evaluated in parallel, so the time is saved. (n_jobs = -1)
+
+XGBoost uses an optimized data structure, meaning the data is stored in a column block. Therefore, it helps in parallel Processing because the data is not stored in row format as compared to other models 
+
+XGBoost uses cache awareness. That is, it uses histogram-based training. It stores the numerical data in a histogram format so that the same data can be utilized further and it is stored in cache memory for easier and faster extraction of data. 
+
+XGBoost also has the feature of out-of-core computing. If you are having 10 GB of data but your RAM is only 8 GB, it divides the data into chunks of 2 to 2 GB (or any number), and then the model training is done sequentially. 
+So if the first chunk of data is completely trained and the state of the training model is S1, then the next chunk of data will start its training stage from that specific stage point, that is S1, and will continue to other stage. 
+But it takes time, as it is done sequentially, so the problem is solved by the next feature. 
+
+
+Distributed computing allows us to train a model on different nodes, that is, on different computers or laptops or any system. If the data is very large, then we can break it into chunks and then all the devices parallelly train the model, which also results in less time. It is more good as compared to out-of-core computing. But it uses some of the external libraries like Dask or Kubernetes. 
+
+GPU support: GPU has more number of cores, but it is less powerful. That is why it is used for deep learning and matrix multiplication and gaming, where the UI/UX and other things need to be strong. 
+
+XGBoost supports regularized learning objective because, initially, gradient boosting was not able to add a regularization term into the loss function. In XGBoost, the regularization term is by default present; that is, it can be L1, L2, or elastic net. 
+
+XGBoost supports sparsity-aware split finding; therefore, it handled the missing values really well. It trains or forms the decision tree in such a way that it knows the direction of the missing value, where to fill it, and what value to fill. Internally, it handles it excellently, so there is no pre-processing required. 
+
+Exhibit supports efficient split finding, i.e., weighted quantile sketch plus approximate tree learning, where each data is divided. Numerical data is first divided into bins, and then the tree is formed, which will take less time as compared to the previous methods. 
+We use Quantile Sketch because randomly dividing bins or deciding bins is not good. Using Quantile, the bins are formed on the basis of the structure of the data, so that the splitting criteria is done in a More accurate way  
+
+One more quality is tree pruning. There are two types of tree pruning, that is, post and pre, and gamma scale which are done to reduce the complexity or the size of the tree, which eventually reduces overfitting. 
+
+Two more models that are frequently used with XGBoost are LightGBM and catboost
+
+XGBOOST FOR REGRESSION
+---morking is the same as the gradien boosting like sleceting the base model of the mean and then other subsequent models but the only difference is i the formation of the DT(we do not use the vanila stting of the DT like gini or entropy but some other concepts r used to construct the tress)
+
+for the 2nd model we make DT in the following way 
+--we caclulate the similarity socre ie bring all the residual value in a leaf node --> SSroot
+
+ss = (sum of residual)^2 / (no.of residual + lambda) lambda=regularization parameter 
+
+here we after deciding the splitting creiteria we cacluate the SS for each leaf node using the same formula but now it willl be  SSl and SSr 
+we have to caclulate the gain after this 
+GAIN = (SSl + SSr) - SSroot   more the value of GAIN the better DT so we choose that splitting 
+here we try ll the splittign criteria which is [1]exact greedy algo(we use it when the dataset is small)
+                                               [2]Approximate algo for splitting features 
+
+and the output is calculated as = sum of residuals/no.of residuals + lambda 
+
+research question ->> what if we have multiple feature and the feature is categorical and multi class????????
+
+
+XGBOOST FOR CLASSIFICATION
+
+stage1 ->>For the 1st model we use the log of odds them we caclulate the pred1 which will be the same but that value cant be use(becuase the values r not probability but log of odds) and we need the convert it to probability  p = e^logODDS / (1 + e^logODDS) so its tha actual value after this we will cal psuedo_res = actual - predicted
+
+stage2 ->>we will use the main input col and the residual(not the main output)
+here we will form a leaf node that store all the residual - will caclute the similarity score 
+ SS= sum of residual^2 / (sum of (prev_prob(i)*(1 - prev_prob(i))) + lambda)
+
+here our goal is to max the SS (more gain)
+
+output = sum of res / [sum of (prev_prob(i)*(1 - prev_prob(i))) + lambda]
+
+MATHS BEHIND ---
+
+
+CATBOOST VS XGBOOST VS LIGHTGBM 
+
+CAT-- 
+      [1]DT are symmetric trees(means 2nodes on the same level will use the same splitting conditions)
+      [2]Hadles categorical data as ordered encoding
+      [3]Sampling(choosing the data)-minimum variance sampling/uniform
+      [4]2017(yendex) developed by russian 
+
+      Here we use a special data structure, so for calling the special data structure we use the word pool from the catboost library, which automatically handles the categorical data. And does the training and testing 
+
+      By default, it will run 1000 iterations, and by research it is proved that it works best when we provide the default parameters. but it will take little bit more time as compared to XGBoost And LBGM 
+
+      But we can fine tune with the help of parameters so that it will take less time. 
+
+      Since it handles categorical data very well, it has a very good parameter that is one-hot-max-size, which indicates that if we have more, suppose 100, categorical variables, then we have to provide the model the actual number Of categorical data to use and process. If we are providing as number five, then only the top five will be there, and the other minimum will be categorized into one categorical feature. 
+
+      When to use--More Categorical Data, Large Data And if you have GPU 
+
+LBGM --
+      [1]DT grow leaf wise(means in one iteration only one leaf can grow based on max gain)
+      [2]Bin,Bucket based for handling categorical variable
+      [3]GOSS(Gradient one side sampling)
+      [4]2016(micorsoft) moderate 
+
+      As it is designed by Microsoft, it is one of the fastest among all the three. 
+
+      We don't have to do any encoding for categorical data. We just have to convert the data type into categorical so that light GBM can understand and process it. 
+
+      When to use--Harry to train, perform, and do not want to tune the news light GPM. 
+
+XGB --
+      [1]DT grow normal depth wise
+      [2]No specific way we have to do one hot encoding
+      [3]without replacement( no bootstrap)
+      [4]2014(open source) hence more community support.
+
+      It takes really less time to train. But a little bit more than LIGHTGBM. 
+
+      We have to pre-process the categorical data and use one-hot encoder or label encoder 
+
+      When to use--Community support performance and want to tune and have a little bit of time 
+
+We can't say which algorithm is much better, but it depends upon the data and the problem we are handling. All three perform exceptionally well and they have neck-and-neck accuracy. 
+
+
+
+    STACKING AND BLENDING ENSEMBLES 
+
+stacking is mostly same as voting ensemble 
+steps - [1]Train all the base model(LR,GBR,KNN)
+        [2]Predict all the values using the base models(on the same data that we trained)
+        [3]Now after this we will train our METAMODEL(but with the actual optput data and the predicted scores by each model so there will not be any input(like cgpa,iq etc) in the metamodel training) which is standard stacking 
+        ---if we want to train the metamodel on the input as well then we can use extended stacking 
+           METAMODEL can be RFR or any strong model
+        
+
+difference from bagging and boosting 
+--we should have the same base model for bagging and boosting 
+--we can have diff base models for stacking 
+
+ problems-->>
+[1]overfitting --as we r usign the same data for testing as wll so our model may overfit due to which or metamodel may overfit
+   solu-->Hold out method(Blending)
+          ==In this method, the basic thing is to divide the data into training data and testing data. 
+            Then we divide the training data again into d1 training data and d2 validation data. 
+            After this, we train our base model on the D1 training data. 
+            And make predictions on the D2 validation data and then pass that validation data to the meta model for training. 
+            And use the main testing data for making the predictions, so here overfitting chances are getting reduced. 
+
+          k-fold method(stacking)
+          ==Here we decide a k value to split the training data into equal parts. 
+            Suppose if we have 800 rows and our k value is 4, then the data will be divided into four equal parts, containing 200 each. 
+            So the basic steps are as follows: 
+            [1]Dividing the data into equal parts. Suppose the data is divided into 1, 2, 3, and 4. Then we will train our linear regression model in the first iteration on the 1, 2, 3 model and make predictions on the fourth part of data. And then in the second iteration we will train our model on the data of 1, 2, and 4, and then use the third part or the third section of data to make predictions. So in this way, each section will be used for both training and validation. 
+            -In this case Each model is trained three times. 
+            -we will repeat the same for all the base modles
+            -Now in the next step, we will train each base model on the entire database. And we'll use the main testing data for validation. Since our meta model is already trained, we will not be training the meta model, but each base model will be again trained as in this step on the entire dataset. This is an important point to remember. 
+
+
+    K-MEANS CLUSTERING
+
+its a clustering algo unsupervised algo mostly used and helpful it can even woek wirh 1000s dimensional data 
+
+STEPS:--
+
+[1]Deciding the value of k(i.e no.of clusters ) whic is crucial part 
+[2]Init the centroids
+[3]Assign cluster (here we will calulate the euclidian dis of each point form the centroid and which ever centroid has the min dis form the given point then that point will be in that cluster)
+[4]Move centroid 
+we will calculate the centroid of each cluster 
+[5]Finish -- its decided on the basis of that the cureent value of the centroid and the previous value of the centroid should be same if its not then further the process is carried out if its not same then will move to step 3 
+
+--for the step i.e to deicde the no.of k we use the elbow method 
+here we plot a graph i.e elbow curve
+on x axis we have no.of clusters and on y axis we have WCSS(inertia)[within clusters sum of squared dis]
+here elbow point is the point where the curve becomes stabalized 
+
+
+
+    DBSCAN--DENSITY BASED CLUSTERING
+    full from = Densoty based spatial clustering of apll with noise 
+    other algo = optics 
+
+problem in k-means == 
+[1]Value of clusters it is not simple to specify the exact value for a high diem data
+even the elbow method is a bit ambigous 
+[2]Sensitive to outliers
+[3]If we give very weird shape of data then it will perform bad 
+
+key terms Epsilon = readius
+          min_points = n 
+
+3-points 
+
+[1]core point-it is a point jiske epsilon neighbourhood mein min_points se jyada points rahte hai ya same 
+[2]Border point - it is a point jiske epsilon neighbourhood mein min_points se kam points rahte hai but atleast 1 core point is there 
+[3]Noise points - if a data point is neither core or border then its noise 
+
+Density connected points 
+-if 2 points A and B are density connected then we can put them in same cluster 
+if A and B are indirectly connected with a lot of core points whose dis is less than or = epsilon then A and B are density connected 
+
+steps[1]--Specify the min_points and epsilon 
+[2]Identify the core ,B ,N points 
+[3]For all unclusterd core points
+   3.a create a new cluster
+   3.b add all the points that are unclustered and density connected to the current point into this cluster 
+[4]For each unclusterd border point assign it to the cluster of nearest core point
+[5]Leave all noise points as it is 
+
+
+Adv -
+  Robust to outliers (used in anamoly detection)
+  No need To specify clusters 
+  Can find arbitrary shaped clusters 
+  Only two hyperparameters to tune 
+dis-
+  Sensitive to hyperparameter 
+  Difficulty with varying density clusters - If our data set has two clusters and one is sparse and one is dense But we will have to use only one value of epsilon. so it will create a problem 
+  Does not predict. 
+
+
+
+    HIERARCHICAL CLUSTERING 
+
+there r 2 types 
+[1]Agglomerative cluster
+
+-This algorithm assumes that every data point is a cluster. And then it works by combining each data point as a cluster. 
+It stores the information of every cluster in the format of a tree, which is called a dendrogram. It is very useful because the entire data is considered as one cluster, and then there are sub-clusters divided on the basis of the closeness of the point It helps to tell the number of clusters. 
+
+-Agglomerative is mostly used because merging is easier than dividing or breaking , so 
+
+algo - 
+[1]Initialize the proximity matrix It contains the distance of each point from all the other points. 
+[2]Make each point a cluster. 
+[3]Inside a loop 
+   Merge the two closest clusters. 
+   Update the Proximity Matrix. 
+[4]Until only one cluster is left 
+
+Further, agglomerative clustering is divided into further types depending upon how to calculate the distance between two clusters. 
+-The distance is also called inter-cluster similarity. 
+
+types - 
+[1]Min(single-link)
+-Here we will calculate the distance of one point to all the other points, that is, between each possible pair of points, and will select the minimum distance point. 
+if our data has lot of outliers noise so it will not work 
+
+[2]Max(complete link)
+Same as min, but we will select the point which has the maximum distance. 
+outliers and noise can be controlled very well 
+
+[3]Group average
+-In between min and max, we calculate the distance of all the possible pairs of points and divide by the number of distances or the number of total distances captured, so it will give the average. 
+
+[4]Ward 
+-First, we will calculate the centroid of the two clusters. 
+-Then we will calculate the distance of every point from the centroid. 
+-dis = C1^2 + C2^2 + ... Cn^2 - A1^2 - A2^2 - .. - An^2 - B1^2 - B2^2 - .. - Bn^2
+
+-Here, C1 and C2 are the distances of each point from the centeroid And a1, a2 ,b1,b2is the distance of each point from its mean, so it means that we are subtracting the distance of the centroid from the variance of the points.
+Here, the main factor is to minimize the variance.  
+-This is the default value in SK Learner. 
+
+How to find the number of clusters using Dendrogram? ??
+-First of all, we have to select such a vertical line that is the longest and no other line cuts it. Then we have to cut that horizontal line and see the number of clusters under it, and then we have to use that. 
+
+[2]Divisive clustering 
+
+-It is exactly opposite of Agglomerative. It considers the entire data set as one cluster. 
+So again, it will break the biggest cluster into sub-clusters. therefore its divisive 
+
+BENEFITS AND LIMITATION 
+
+--we can cluster wide varity of data
+--dendogram foramtion so we can decide the cluster we xcan see the closeness of points  
+
+--we cannot use it for vary large dataset as it does matrix formation 
+
+
+    IMBALANCED DATA 
+
+here it means One class is dominating the other class.Suppose there are two classes of pass and fail, and there are a total of 500 data points. 450 students are passed and 50 students are failed, so it is imbalanced. 
+
+problems::-
+[1]Bias Our model will focus more on the majority class, leaving behind the minority class, so the result will be in favor of the majority. 
+[2]The metrics used will not be reliable. In this case, the accuracy would fail because a class predicting having 90% accuracy on an imbalanced dataset is not reliable. 
+
+imbalanced data is present everywhare in all domains finance,healtcare,manufacturing,customer servies
+
+5 techniques to handle imbalanced data :
+
+[1]Undersampling :-
+Here we perform sampling on the majority dataset so that, after sampling, the dataset in the minority and majority is the same, making the data balanced. 
+
+[2]Oversampling
+opposite of undersampling we increas our minority class by duplication 
+
+[3]SMOTE(Synthetic Minority Over Sampling Technique ) most popular 
+It's an oversampling technique, but the difference is that, instead of duplication of data, which may cause overfitting, it tries to generate new data from the given minority data. 
+--It uses interpolation to develop new data points. 
+
+steps:--
+[1]Train a KNN model on minority class observations and find each observation's five closest neighbors. 
+[2]Select randomly minority class data points. 
+[3]Select a neighbor of each data point at random. 
+[4]Extract a number between zero and one which is a factor. 
+[5]Create the new data point with The following formula: original sample - factor[original sample - neighbor] 
+If the original sample is(1,1) and the neighbor is(2,2), then the new generated data point using the above formula will be (1.5,1.5)
+
+we will contiue it until Both the classes become equal. 
+
+DIS-
+-not for categorical data 
+-compuational complex(KNN is slow)
+-Sensitive to outlier
+-In the real world, it may be false that the data generated synthetically is not representing the conditions, so it is a big disadvantage. 
+
+[4]ENSEMBLE methods 
+Balanced Random Forest - works with imbalanced data 
+So in random forest, we train multiple decision rules. And while training, we bootstrap, that is, randomly picked data points. In Balanced Random Forest, the sampling is done in such a way that both the majority class and the minority class counts of data for each decision tree will be the same. 
+
+
+[5]Cost sensitive learning 
+
+-class weights LR,DT have this feature
+-use a custom loss function (XGBoost,lighgbm) 
