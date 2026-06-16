@@ -1,0 +1,120 @@
+    K-MEANS CLUSTERING
+
+its a clustering algo unsupervised algo mostly used and helpful it can even work wirh 1000s dimensional data 
+
+STEPS:--
+
+[1]Deciding the value of k(i.e no.of clusters ) which is crucial part 
+[2]Init the centroids
+[3]Assign cluster (here we will calulate the euclidian dis of each point form the centroid and which ever centroid has the min dis form the given point then that point will be in that cluster)
+[4]Move centroid 
+we will calculate the centroid of each cluster 
+[5]Finish -- its decided on the basis of that the cureent value of the centroid and the previous value of the centroid should be same if its not then further the process is carried out if its not same then will move to step 3 
+
+--for the step i.e to deicde the no.of k we use the elbow method 
+here we plot a graph i.e elbow curve
+on x axis we have no.of clusters and on y axis we have WCSS(inertia)[within clusters sum of squared dis]
+here elbow point is the point where the curve becomes stabalized 
+
+
+
+    DBSCAN--DENSITY BASED CLUSTERING
+    full from = Densoty based spatial clustering of apll with noise 
+    other algo = optics 
+
+problem in k-means == 
+[1]Value of clusters it is not simple to specify the exact value for a high diem data
+even the elbow method is a bit ambigous 
+[2]Sensitive to outliers
+[3]If we give very weird shape of data then it will perform bad 
+
+key terms Epsilon = readius
+          min_points = n 
+
+3-points 
+
+[1]core point-it is a point jiske epsilon neighbourhood mein min_points se jyada points rahte hai ya same 
+[2]Border point - it is a point jiske epsilon neighbourhood mein min_points se kam points rahte hai but atleast 1 core point is there 
+[3]Noise points - if a data point is neither core or border then its noise 
+
+Density connected points 
+-if 2 points A and B are density connected then we can put them in same cluster 
+if A and B are indirectly connected with a lot of core points whose dis is less than or = epsilon then A and B are density connected 
+
+steps[1]--Specify the min_points and epsilon 
+[2]Identify the core ,B ,N points 
+[3]For all unclusterd core points
+   3.a create a new cluster
+   3.b add all the points that are unclustered and density connected to the current point into this cluster 
+[4]For each unclusterd border point assign it to the cluster of nearest core point
+[5]Leave all noise points as it is 
+
+
+Adv -
+  Robust to outliers (used in anamoly detection)
+  No need To specify clusters 
+  Can find arbitrary shaped clusters 
+  Only two hyperparameters to tune 
+dis-
+  Sensitive to hyperparameter 
+  Difficulty with varying density clusters - If our data set has two clusters and one is sparse and one is dense But we will have to use only one value of epsilon. so it will create a problem 
+  Does not predict. 
+
+
+
+    HIERARCHICAL CLUSTERING 
+
+there r 2 types 
+[1]Agglomerative cluster
+
+-This algorithm assumes that every data point is a cluster. And then it works by combining each data point as a cluster. 
+It stores the information of every cluster in the format of a tree, which is called a dendrogram. It is very useful because the entire data is considered as one cluster, and then there are sub-clusters divided on the basis of the closeness of the point It helps to tell the number of clusters. 
+
+-Agglomerative is mostly used because merging is easier than dividing or breaking , so 
+
+algo - 
+[1]Initialize the proximity matrix It contains the distance of each point from all the other points. 
+[2]Make each point a cluster. 
+[3]Inside a loop 
+   Merge the two closest clusters. 
+   Update the Proximity Matrix. 
+[4]Until only one cluster is left 
+
+Further, agglomerative clustering is divided into further types depending upon how to calculate the distance between two clusters. 
+-The distance is also called inter-cluster similarity. 
+
+types - 
+[1]Min(single-link)
+-Here we will calculate the distance of one point to all the other points, that is, between each possible pair of points, and will select the minimum distance point. 
+if our data has lot of outliers noise so it will not work 
+
+[2]Max(complete link)
+Same as min, but we will select the point which has the maximum distance. 
+outliers and noise can be controlled very well 
+
+[3]Group average
+-In between min and max, we calculate the distance of all the possible pairs of points and divide by the number of distances or the number of total distances captured, so it will give the average. 
+
+[4]Ward 
+-First, we will calculate the centroid of the two clusters. 
+-Then we will calculate the distance of every point from the centroid. 
+-dis = C1^2 + C2^2 + ... Cn^2 - A1^2 - A2^2 - .. - An^2 - B1^2 - B2^2 - .. - Bn^2
+
+-Here, C1 and C2 are the distances of each point from the centeroid And a1, a2 ,b1,b2is the distance of each point from its mean, so it means that we are subtracting the distance of the centroid from the variance of the points.
+Here, the main factor is to minimize the variance.  
+-This is the default value in SK Learner. 
+
+How to find the number of clusters using Dendrogram? ??
+-First of all, we have to select such a vertical line that is the longest and no other line cuts it. Then we have to cut that horizontal line and see the number of clusters under it, and then we have to use that. 
+
+[2]Divisive clustering 
+
+-It is exactly opposite of Agglomerative. It considers the entire data set as one cluster. 
+So again, it will break the biggest cluster into sub-clusters. therefore its divisive 
+
+BENEFITS AND LIMITATION 
+
+--we can cluster wide varity of data
+--dendogram foramtion so we can decide the cluster we xcan see the closeness of points  
+
+--we cannot use it for vary large dataset as it does matrix formation 
