@@ -1,0 +1,158 @@
+Feature engineering is the process of using domain knowledege to extract features from a raw dara(these features can be used to improve the performance of ML algo)
+
+It has 4-types or stepps u can say
+
+[1]Feature Transformation(Missing values,outlier etc)
+[2]Feature construction
+[3]Feature selection
+[4]Feature extraction
+
+
+FEATURE SCALING(its as features Transformation)
+the last part in features engineering is features scaling(standardization and normaization) it is used before the deployment of the ML algo/website
+
+def- it is a technique to standardize the independent features present in the data in a fixed range
+
+  standardization
+~~also called z-score tesing(as mentioned in statistics.txt)  
+and after standardizing some cols(neumerical) the mean will 0 and std=1(standard normal variate) here we only do mean centering and std scaling
+
+  normaization
+~~it is a technique often applied as a part of data preparation for machine learning,the goal of normailzation is to change the values of neumeric cols in the dataset to use a common scale without losing the inforamtion(mostly to eliminate the units like kg,rupess and to sut keep the magnitude)
+~it includes the 
+min-max-scaling(on every value one formula is applied->
+[(Xi-Xmin)/(Xmax-Xmin)] and te output will be scaled bet 0 and 1) most-used in CNN(image processign),
+
+mean normalization((Xi - Xmean)/(Xmax - Xmin)),
+
+MaxAbs scaling(Xi/|Xmax|) used when our data has more 0s,
+
+Robust Scaling(Xi - Xmedain/IQR) best perform under outliers
+
+ML ALGORITHAMS ALWAYS EXPECT NUMBERS SO THE CATEGORICAL(ORDINAL,NOMINAL DATA) MUST BE CONVERTED TO NUMBERS 
+
+[1]Ordinal encoding(made for the input odinal cols)
+[2]Lable encoding(if the output data is categorical)
+
+[3]One-hot encoding(for nominal data)
+->it follows the dummy varibale trap like if there are 50 categroreis then there will be only n-1 cols categories i.e the cols should not have a mathematical realtionshpi(multicolliniarity)
+--also follows the most frequent variables( if there are some categories only once then we can make it as others)
+
+
+SKLEARN PIPELINES
+
+pipelines chains together multiple steps so that the output of each step is used as input to the next step
+pipelines makes it easy to apply the same preprocessing to train and test
+
+VARIABLE Transformation 
+~~there r 3 sklearn librareis for Transformation
+[1]Function transformer
+-Log transformer(used when data is right skewed)
+-reciprocal transformer
+-square(X2) for left skewed data
+-sqrt
+
+[2]Power transformer
+-Box-cox transformer
+-yeo-jhonson
+
+SOMETIMES ITS IMP TO CONVERT THE neumerical DATA INTO CATEGORICAL
+DATA there r 2 methods
+ ~~Discretization(Binning)[to handle outilers and increase the data spread] and 
+ types->
+        Unsupervised(Equal width binning(max-min/bins),Equal frequency binninb[quantile](makes value spred uniform),k-means binning(used when data is present in clustered format)),
+        supervised(Decision-tree binning),Custom Binning()
+ Binarization
+
+
+HANDLING MISSING values
+
+[1]Remove them(complete case analysis)here the most imp assumption is Missing completely at random
+[2]Impute->
+   (a)Univariate-
+       num->Mean,meadian,random
+       cat->most occurence,missing
+   (b)Multivariate-
+       KNN imputer
+       Iterative imputer(MICE->Multivaraite imputation by chained equations the most imp assumption is the data should be MAR(missing at random),slow,memory probelm but accurate,only applied on input cols)   
+
+       the 3 category of missing data are MCAR,MAR(data collected is not filled properly),MNAR(not at random)
+
+
+Outliers effect one weights problems->
+  linerar regression
+  logistic regression
+  Adaboost
+  deep learning
+
+  there r 2 methods to remove outliers->
+    Trimming(makes the dataset thin,fast)
+    Capping
+    Treat it as missing values
+    Discretization
+
+  how to find it->
+  [1]Normal distribution: Emprircal rule(68.2-95.4-99.7)
+  [2]skewed distribution: IQR(turkey fence method)
+  [3]Other distribuion: If the data is above 99percentile or below 2.5-5 percentile then its a outlier
+  [4]last is winsorization
+
+ALL THE ABOVE WAS FEATURE Transformation
+
+now FEATURE CONSTRUCTION and Feature splitting
+
+~~FEATURE EXTRACTION
+
+main topic curse of dimensionality
+->> Curse of Dimensionality
+Main Concept
+
+The curse of dimensionality refers to the problems that arise when the number of features (columns / dimensions) in a dataset becomes very large.
+
+As we add more and more features than required, the data space increases exponentially. Because of this, the data points become sparse, distances between points lose meaning, and model accuracy decreases instead of increasing.
+
+In short:
+More features ≠ better model
+ disadvantages-> 1.Performance Decreases
+                 2.Computation
+ how to solve-> Dimensionality reduction the  2 methods are feature Selection(Forward selection and Backward elimination) and feature Extraction(PCA,LDA,TSNE)            
+
+
+PRINCIPAL COMPONENT ANALYSIS(unsupervised technique)
+
+~~PCA is a technique which can transform a higher dimensional data to a lower dimensional data(but it maintains the main essence of the data)
+ ~Benefits
+  - Faster execution of ALGORITHAMS
+  = Visulaization
+
+(if we dont have any idea about the data and we have to feature selection then we can see the variance of each col/feature and remove the lowest var one(if the data is numerical) spread is directly proportinal to variance)
+here we dont take MAD(mode) Because its not diffrentiable VARIANCE IS VERY IMPORTANT IN PCA
+
+here we will select the unit vector where the variance is max and will calculate projection of its i.e x on U -> x.U transpose
+
+but the problem with the variance is that it can be calculated only w.r.t one axis and does not tell the realtionship bet 2 features SO HERE COMES THE IMPORTANT FEATURE covariance and the covariance matrix for eg:-- if the points are(-1,1),(0,0),(1,-1) then the covariance = -2/3 and (-1,-1),(0,0),(1,1) then -> 2/3 but the variance will be same with same comes hte correlation but its in the range of -1 to 1
+
+the covariance matrix of X1,X2 will be
+X1[var(X1)     cov(X2,X1)]
+X2[cov(X1,X2)  var(X2)   ]
+       X1         X2
+cov(X1,X1) = var(X1)
+cov(X1,X2) = cov(X2,X1) so the matrix are symmetric
+
+    linerar Transformation,Eigen vectors and Eigen values
+
+Metrices r bacically linerar transformations the changes our coordiante  system
+Eigen vector-> vectors whose magnitude chages but no the direction(after applying linear transformations)
+
+Eigen value-> its the distances or the number by which my Eigen vector changes its magnitude if my point goes form (1,0) to (3,0) then its Eigen value is 3 
+
+A*V bar = lambda* V bar
+HERE A=matrix,V bar=Eigen vector and lambda=Eigen value
+
+~~~~~~the largest eigenvector of the covariance matrix always points into the direction of the largest variance of the data, and the magnitude of this vector equals the corresponding eigenvalue. The second largest eigenvector is always orthogonal to the largest eigenvector, and points into the direction of the second largest spread of the data.
+
+steps in PCA->
+
+[1]Mean centering of data(increases the perofrmance)
+[2]covariance matrix
+[3]Finding the Eigen value and the Eigen vector of the covariance matrix
