@@ -1,0 +1,90 @@
+Statistics is a branch of mathematics that involves collecting,analysing,interpreting and presenting data
+
+~there 2 types of stats
+
+
+(a)Descriptive->summarize,5r summary,foucus on what data says
+
+(b)inferential->makes predictions or draw conclusions,goes beyond the data ,eg:Hypothesis testing,ttests,p-values basic def->
+"Its a brach of statistics that helps us to make predictions or decisions about a popualtion based on a sample data
+
+MAD(Mean absolute deviation) = summation(| Xi - X |)/n not affected more by outliers but no used in inferential stats
+
+Coefficient of variation-> The CV is the ratio of te std to the mean expressed in % it simply expressess the amount of variability in a dataset relative to the mean used when we want to compare 2 cols
+
+
+~~If we ahve a categorical cols than we can make 
+- Frequency distribution table(bar chart)
+- Relative frequenct table(pie chart)
+- Cumulative frequency table(above the bar chart plots line)
+
+
+BIVARIATE ANALYSIS
+
+(1) categorical-categorical then we make a contingency tsble
+(2) neumerical - neumerical then we amke scatter plots it shows the negative and positve correlation
+(3) neumerical - categorical many plots and much more
+
+
+BOX PLOT-> A box plot also known as a box and whisker plot is a graphical representation of a dataset that shows the distribution of the datset 
+
+Disadvantage of covariance-> One limitation is that it does not tell us about the strenght of the relationship between 2 variables 
+it is aslo effected by the scale of the variable like if the realtionship is same then also the covariance is different
+
+~~If we are calulating a covariance of one variable with itself then its called variance
+
+~~Correlation-> refers to a statistical relationship between 2 or more variables specifically it measures the degree to which 2 variables are related and how they tend to change eachother
+
+famous Quote in DS-. "  CORRELATION DOES NOT IMPLY CAUSATION    "
+Correlation shows association, not cause-effect.
+
+
+PROBABILITY
+
+Random variable->set of all the possibe values that we cna get form a random experiment (also known as sample space)
+
+probability distributions-> list of all the possible outcomes of a random variable along with their coreesponding probability values
+
+every PD has its parameters->these are neumerical values that determine the shape,location,and scale of the distribution
+
+
+So probability distribution Function is the umbrella term it has
+1-> probability mass Function(PMF)[for discrete random variables]
+2-> probability density function(PDF)[for continous random variables]
+by using both the 2 we can make Cumulative distribution function
+
+in PMF the y-axis represents the probability and in PDF it represents probability  density-> its not the probability it shows the probability of area or range
+
+the PDF is made with the method of the density estimation->it is a stastistical technique used to estimate the probability density function of a random variable on a set of observations or data used in Hypothesis testing,data analysis,data visulization 
+~~there are 2 methods 
+[1]Parametric -> assumes that the data follows a specific probability distribution like a mormal distribution
+[2] non-Parametric -> do not make any assumptions instead estimate it directlyy from the data
+
+
+WE CAN ALSO PLOT A CDF FROM A PDF WHEN WE CALULATE THE AREA OF THE PDF WE THE GET THE CDF ANF BY CALULATING THE SLOPE VALUE OF THE CDFF WE GET THE PDF in simpler terms when apply integration on PDF we can get CDF and when we apply differentiation on the CDF wwe get the PDF
+
+
+STANDARD NORMAL VARIATE(Z) it is a special case of the normal distribution where the mean is 0 and the std is 1
+
+THE AREA UNDER ALL THE TYPES OF CURVE IS 1
+
+in right-skew(positive skew)-> mode<meadian<mean
+
+in left-skew(negative skew)-> mode>median>mean
+
+HOW IS SKEWNESS CALCULATED it is nothing but the moment 1st moment-> mean,2nd->var,3rd->skew,4th->kurtosis
+
+[n / (n-1)(n-2)] * summation[((x - Xbar)^3) / s]
+
+
+REAL WORLD DATA ARE NOT PERFECTLY NORMAL DIST THEREFORE WE CONVERT THAT DATA INTO NORMAL DIST USING TRANSFORMATIONS LIKE [1] LOG TRANSFORM(generally we appy it on the right skewed data(np.log1 always add 1)) [2] BOX-COX TRANSFORM(numbers should be grater than 0) [3]RECIPROCAL [4]POWER [5]YEO-JONHSON(It is a somewhat adjustment of ox-cox accepeitng 0 and -ve values) [6]sq(X^2 mostly used for left skewdata)
+
+~~so in sklearn we have inbulid transformers there are 3 types 
+[1]Function transformers->log,reciprocal,sq
+[2]power transformers->Box-cox,yeo-jhonsons
+[3]Quantile transformers
+~~mostly Logistic and linera are moslty affected by other transforms but the decsison terr and teh randm forest is not generally affetced
+
+
+CONFIDENCE LEVEL IS NOT PROBABILITY
+
