@@ -52,8 +52,6 @@ df['city_development_index'].plot.density(color='red')
 new_df['city_development_index'].plot.density(color='green')
 plt.show()
 
-
-
 fig = plt.figure()
 ax = fig.add_subplot(111)
 
@@ -64,9 +62,6 @@ df['city_development_index'].hist(bins=50, ax=ax, density=True, color='red')
 # see the overlay of the 2 distributions
 new_df['city_development_index'].hist(bins=50, ax=ax, color='green', density=True, alpha=0.8)
 plt.show()
-
-"""one more method to check is to see the reation of each category in the categorical variables"""
-
 
 temp = pd.concat([
     #% of obervations per category in origignal data
