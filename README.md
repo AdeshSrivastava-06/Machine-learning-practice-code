@@ -25,4 +25,3 @@ A structured collection of Python scripts covering Machine Learning, Feature Eng
 ## Connect
 
 - LinkedIn: linkedin.com/in/adesh-srivastava-038a2037a
-- GitHub: github.com/AdeshSrivastava-06
