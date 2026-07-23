@@ -34,6 +34,6 @@ p_value = stats.t.cdf(t_stats,df)
 print("p-value:--",p_value)
 
 if p_value < alpha:
-    print("Reject null hypo")
+    print("Reject null hypothesis")
 else:
-    print("Not enoung evi ")    
+    print("Not enoung evidence ")    
